@@ -1,0 +1,25 @@
+name: Deploy para servidor
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 24.199.123.252 >> ~/.ssh/known_hosts
+
+      - name: Enviar código via SSH
+        run: |
+          ssh root@24.199.123.252 "cd /var/www/html/loren.services && git pull origin main"
