@@ -1,25 +1,50 @@
-name: Deploy para servidor
+name: Deploy to DigitalOcean
 
 on:
   push:
     branches:
-      - main
+      - main  # dispara o deploy sempre que fizer push na main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v3
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
 
       - name: Configurar SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 24.199.123.252 >> ~/.ssh/known_hosts
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Enviar código via SSH
+      - name: Deploy no servidor
         run: |
-          ssh root@24.199.123.252 "cd /var/www/html/loren.services && git pull origin main"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+            set -e  # encerra se der erro
+
+            cd ${{ secrets.PROJECT_PATH }} || exit
+
+            echo "🌀 Atualizando código..."
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "📦 Atualizando dependências..."
+            if [ -f composer.json ]; then
+              composer install --no-interaction --prefer-dist --optimize-autoloader
+            fi
+
+            echo "⚙️  Executando tarefas Laravel..."
+            if [ -f artisan ]; then
+              php artisan migrate --force || true
+              php artisan config:cache
+              php artisan route:cache
+              php artisan view:clear
+            fi
+
+            echo "🔁 Reiniciando serviços..."
+            systemctl reload nginx || true
+            systemctl restart php8.1-fpm || true
+
+            echo "✅ Deploy finalizado!"
+          EOF

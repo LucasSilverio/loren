@@ -1,12 +1,120 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loren Services</title>
+    <title>Loren | Consultoria em Desenvolvimento e Dados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Personalização simples (opcional) */
+        .gradient-bg {
+            background: linear-gradient(to right, #0F172A, #1E3A8A); /* Azul Marinho e Azul Escuro */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'loren-primary': '#1E3A8A', // Azul Escuro (exemplo)
+                        'loren-secondary': '#3B82F6', // Azul Claro (exemplo)
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <h1>Em construção!</h1>
-</body>
-</html>
+<body class="font-sans antialiased text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-loren-primary">
+                Loren
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#inicio" class="text-gray-600 hover:text-loren-secondary transition duration-300">Início</a>
+                <a href="#servicos" class="text-gray-600 hover:text-loren-secondary transition duration-300">Serviços</a>
+                <a href="#sobre" class="text-gray-600 hover:text-loren-secondary transition duration-300">Sobre</a>
+                <a href="#contato" class="text-gray-600 hover:text-loren-secondary transition duration-300">Contato</a>
+            </nav>
+            <a href="#contato" class="hidden md:block bg-loren-secondary hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+                Fale Conosco
+            </a>
+            <button class="md:hidden text-gray-600 hover:text-loren-secondary focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="gradient-bg text-white py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
+                    Transforme seus Dados em Decisões
+                </h1>
+                <p class="text-xl md:text-2xl font-light mb-8 max-w-3xl mx-auto opacity-90">
+                    Consultoria especializada em **Desenvolvimento de Software** e **Análise de Dados** para impulsionar o seu negócio.
+                </p>
+                <a href="#contato" class="inline-block bg-white text-loren-primary hover:bg-gray-200 font-bold text-lg py-3 px-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                    Comece a Transformação Agora
+                </a>
+            </div>
+        </section>
+
+        <section id="servicos" class="py-16 md:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-loren-primary">Nossos Serviços</h2>
+                <p class="text-xl text-center text-gray-600 mb-12">Soluções completas para a era digital.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+                        <div class="text-loren-secondary mb-4">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Desenvolvimento de Software</h3>
+                        <p class="text-gray-600">Construímos aplicações web e mobile escaláveis e de alta performance, utilizando as tecnologias mais modernas do mercado.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+                        <div class="text-loren-secondary mb-4">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2-5a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Data Science & Analytics</h3>
+                        <p class="text-gray-600">Transformamos seus dados brutos em insights estratégicos, implementando modelos de Machine Learning e relatórios dinâmicos.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+                        <div class="text-loren-secondary mb-4">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Consultoria em Nuvem (Cloud)</h3>
+                        <p class="text-gray-600">Otimizamos sua infraestrutura com soluções em Cloud (AWS, Azure, GCP), garantindo escalabilidade, segurança e redução de custos.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 md:pr-12 mb-8 md:mb-0">
+                    <div class="bg-gray-200 h-64 rounded-xl flex items-center justify-center">
+                        [Imagem da Equipe ou Gráfico]
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-loren-primary">A Loren é a sua parceira de Inovação</h2>
+                    <p class="text-lg text-gray-700 mb-4">
+                        Somos uma consultoria apaixonada por tecnologia e focada em resultados. Na Loren, acreditamos que a combinação de um desenvolvimento ágil e uma análise de dados inteligente é a chave para o crescimento sustentável.
+                    </p>
+                    <p class="text-lg text-gray-700">
+                        Nossa missão é fornecer soluções personalizadas que não apenas atendam, mas superem as expectativas de nossos clientes, criando valor real para o seu negócio.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="py-16 md:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 text-gray-
