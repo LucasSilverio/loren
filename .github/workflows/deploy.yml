@@ -3,7 +3,7 @@ name: Deploy to DigitalOcean
 on:
   push:
     branches:
-      - main  # dispara o deploy sempre que fizer push na main
+      - main  # dispara o deploy sempre que houver push na main
 
 jobs:
   deploy:
@@ -12,11 +12,16 @@ jobs:
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
-  
-      - name: Deploy no servidor
+
+      - name: Deploy via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
-            set -e
+          # cria arquivo temporário com a chave privada
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
+          # conecta ao servidor
+          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+            set -e  # encerra se houver erro
 
             cd ${{ secrets.PROJECT_PATH }}
 
@@ -24,19 +29,28 @@ jobs:
             git fetch --all
             git reset --hard origin/main
 
+            echo "📦 Atualizando dependências..."
             if [ -f composer.json ]; then
               composer install --no-interaction --prefer-dist --optimize-autoloader
             fi
 
+            # verifica se é Laravel
             if [ -f artisan ]; then
+              echo "⚙️ Executando tarefas Laravel..."
               php artisan migrate --force
               php artisan config:cache
               php artisan route:cache
               php artisan view:clear
+            else
+              echo "⚙️ Projeto PHP puro detectado. Pulando tarefas Laravel."
             fi
 
+            echo "🔁 Reiniciando serviços..."
             systemctl reload nginx
             systemctl restart php8.1-fpm
 
             echo "✅ Deploy finalizado!"
           EOF
+
+          # remove a chave temporária
+          rm -f /tmp/deploy_key
