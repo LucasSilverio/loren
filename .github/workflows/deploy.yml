@@ -44,8 +44,4 @@ jobs:
               echo "⚙️ Projeto PHP puro detectado. Pulando tarefas Laravel."
             fi
 
-            echo "🔁 Reiniciando serviços..."
-            systemctl reload nginx
-            systemctl restart php8.1-fpm
-
             echo "✅ Deploy finalizado!"
