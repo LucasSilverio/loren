@@ -3,12 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loren | Consultoria em Desenvolvimento e Dados **</title>
+    <title>Loren | Desenvolvimento de Software e Business Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Personalização simples (opcional) */
         .gradient-bg {
-            background: linear-gradient(to right, #0F172A, #1E3A8A); /* Azul Marinho e Azul Escuro */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-bg-alt {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
         }
     </style>
     <script>
@@ -16,105 +47,417 @@
             theme: {
                 extend: {
                     colors: {
-                        'loren-primary': '#1E3A8A', // Azul Escuro (exemplo)
-                        'loren-secondary': '#3B82F6', // Azul Claro (exemplo)
+                        'loren-primary': '#667eea',
+                        'loren-secondary': '#764ba2',
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="font-sans antialiased text-gray-800">
+<body class="font-sans antialiased text-gray-800 smooth-scroll">
 
+    <!-- Header -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-loren-primary">
-                Loren
+            <div class="text-2xl font-bold gradient-text">
+                <i class="fas fa-code mr-2"></i>Loren
             </div>
             <nav class="hidden md:flex space-x-8">
-                <a href="#inicio" class="text-gray-600 hover:text-loren-secondary transition duration-300">Início</a>
-                <a href="#servicos" class="text-gray-600 hover:text-loren-secondary transition duration-300">Serviços</a>
-                <a href="#sobre" class="text-gray-600 hover:text-loren-secondary transition duration-300">Sobre</a>
-                <a href="#contato" class="text-gray-600 hover:text-loren-secondary transition duration-300">Contato</a>
+                <a href="#inicio" class="text-gray-600 hover:text-loren-primary transition duration-300 font-medium">Início</a>
+                <a href="#servicos" class="text-gray-600 hover:text-loren-primary transition duration-300 font-medium">Serviços</a>
+                <a href="#sobre" class="text-gray-600 hover:text-loren-primary transition duration-300 font-medium">Sobre</a>
+                <a href="#contato" class="text-gray-600 hover:text-loren-primary transition duration-300 font-medium">Contato</a>
             </nav>
-            <a href="#contato" class="hidden md:block bg-loren-secondary hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+            <a href="https://wa.me/5534996960659" class="hidden md:block bg-gradient-to-r from-loren-primary to-loren-secondary hover:opacity-90 text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-lg">
                 Fale Conosco
             </a>
-            <button class="md:hidden text-gray-600 hover:text-loren-secondary focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 hover:text-loren-primary focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
             </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#inicio" class="block text-gray-600 hover:text-loren-primary transition duration-300">Início</a>
+                <a href="#servicos" class="block text-gray-600 hover:text-loren-primary transition duration-300">Serviços</a>
+                <a href="#sobre" class="block text-gray-600 hover:text-loren-primary transition duration-300">Sobre</a>
+                <a href="#contato" class="block text-gray-600 hover:text-loren-primary transition duration-300">Contato</a>
+                <a href="#contato" class="block bg-gradient-to-r from-loren-primary to-loren-secondary text-white font-semibold py-2 px-4 rounded-lg text-center">Fale Conosco</a>
+            </div>
         </div>
     </header>
 
     <main>
-        <section id="inicio" class="gradient-bg text-white py-20 md:py-32">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
-                    Transforme seus Dados em Decisões
+        <!-- Hero Section -->
+        <section id="inicio" class="gradient-bg text-white py-20 md:py-32 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-0 left-0 w-72 h-72 bg-white rounded-full filter blur-3xl"></div>
+                <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 animate-fade-in-up">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                    Desenvolvimento de Software<br/>e Business Intelligence
                 </h1>
-                <p class="text-xl md:text-2xl font-light mb-8 max-w-3xl mx-auto opacity-90">
-                    Consultoria especializada em **Desenvolvimento de Software** e **Análise de Dados** para impulsionar o seu negócio.
+                <p class="text-xl md:text-2xl font-light mb-8 max-w-3xl mx-auto opacity-95">
+                    Transformamos ideias em soluções tecnológicas inteligentes e dados em decisões estratégicas para impulsionar seu negócio.
                 </p>
-                <a href="#contato" class="inline-block bg-white text-loren-primary hover:bg-gray-200 font-bold text-lg py-3 px-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
-                    Comece a Transformação Agora
-                </a>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://wa.me/5534996960659" class="inline-block bg-white text-loren-primary hover:bg-gray-100 font-bold text-lg py-4 px-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                        <i class="fas fa-rocket mr-2"></i>Comece Agora
+                    </a>
+                    <a href="#servicos" class="inline-block bg-transparent border-2 border-white text-white hover:bg-white hover:text-loren-primary font-bold text-lg py-4 px-8 rounded-lg transition duration-300">
+                        <i class="fas fa-info-circle mr-2"></i>Saiba Mais
+                    </a>
+                </div>
             </div>
         </section>
 
+        <!-- Serviços Section -->
         <section id="servicos" class="py-16 md:py-24 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-loren-primary">Nossos Serviços</h2>
-                <p class="text-xl text-center text-gray-600 mb-12">Soluções completas para a era digital.</p>
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Nossos Serviços</h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Soluções completas de tecnologia para transformar seu negócio</p>
+                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    
-                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
-                        <div class="text-loren-secondary mb-4">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <!-- Desenvolvimento de Software -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover">
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-code text-white text-2xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-3">Desenvolvimento de Software</h3>
-                        <p class="text-gray-600">Construímos aplicações web e mobile escaláveis e de alta performance, utilizando as tecnologias mais modernas do mercado.</p>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Desenvolvimento de Software</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Criamos aplicações web e mobile personalizadas, escaláveis e de alta performance. Utilizamos as tecnologias mais modernas e melhores práticas do mercado.
+                        </p>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Aplicações Web Responsivas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Apps Mobile (iOS e Android)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>APIs RESTful e Microserviços</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Arquitetura Cloud-Native</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>DevOps e CI/CD</span>
+                            </li>
+                        </ul>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
-                        <div class="text-loren-secondary mb-4">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2-5a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+                    <!-- Business Intelligence -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover">
+                        <div class="bg-gradient-to-br from-purple-500 to-purple-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-chart-line text-white text-2xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-3">Data Science & Analytics</h3>
-                        <p class="text-gray-600">Transformamos seus dados brutos em insights estratégicos, implementando modelos de Machine Learning e relatórios dinâmicos.</p>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Business Intelligence</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Transformamos dados em insights acionáveis. Criamos dashboards interativos, relatórios automatizados e análises preditivas para suportar decisões estratégicas.
+                        </p>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Dashboards Interativos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Análise de Dados e ETL</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Data Warehousing</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Relatórios Automatizados</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                                <span>Machine Learning e IA</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Serviços Adicionais -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="text-loren-primary mb-4">
+                            <i class="fas fa-database text-3xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">Consultoria em Dados</h4>
+                        <p class="text-gray-600 text-sm">Estratégias de governança, qualidade e arquitetura de dados.</p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
-                        <div class="text-loren-secondary mb-4">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="text-loren-primary mb-4">
+                            <i class="fas fa-cloud text-3xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-3">Consultoria em Nuvem (Cloud)</h3>
-                        <p class="text-gray-600">Otimizamos sua infraestrutura com soluções em Cloud (AWS, Azure, GCP), garantindo escalabilidade, segurança e redução de custos.</p>
+                        <h4 class="text-xl font-semibold mb-3">Cloud Computing</h4>
+                        <p class="text-gray-600 text-sm">Migração e otimização de infraestrutura na nuvem (AWS, Azure, GCP).</p>
                     </div>
 
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="text-loren-primary mb-4">
+                            <i class="fas fa-shield-alt text-3xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">Segurança</h4>
+                        <p class="text-gray-600 text-sm">Auditoria, compliance e proteção de dados e aplicações.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Sobre Section -->
         <section id="sobre" class="py-16 md:py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 md:pr-12 mb-8 md:mb-0">
-                    <div class="bg-gray-200 h-64 rounded-xl flex items-center justify-center">
-                        [Imagem da Equipe ou Gráfico]
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6 gradient-text">Por que escolher a Loren?</h2>
+                        <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                            Somos especialistas em transformar desafios complexos em soluções tecnológicas elegantes. Combinamos expertise em desenvolvimento de software com conhecimento profundo em Business Intelligence para entregar resultados que realmente fazem a diferença.
+                        </p>
+                        <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                            Nossa abordagem é centrada no cliente, focada em entender suas necessidades e objetivos para criar soluções personalizadas que impulsionem o crescimento do seu negócio.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6 mt-8">
+                            <div>
+                                <div class="text-3xl font-bold gradient-text mb-2">100+</div>
+                                <div class="text-gray-600">Projetos Entregues</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold gradient-text mb-2">50+</div>
+                                <div class="text-gray-600">Clientes Satisfeitos</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold gradient-text mb-2">10+</div>
+                                <div class="text-gray-600">Anos de Experiência</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold gradient-text mb-2">24/7</div>
+                                <div class="text-gray-600">Suporte Técnico</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="md:w-1/2">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-loren-primary">A Loren é a sua parceira de Inovação</h2>
-                    <p class="text-lg text-gray-700 mb-4">
-                        Somos uma consultoria apaixonada por tecnologia e focada em resultados. Na Loren, acreditamos que a combinação de um desenvolvimento ágil e uma análise de dados inteligente é a chave para o crescimento sustentável.
-                    </p>
-                    <p class="text-lg text-gray-700">
-                        Nossa missão é fornecer soluções personalizadas que não apenas atendam, mas superem as expectativas de nossos clientes, criando valor real para o seu negócio.
-                    </p>
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-loren-primary to-loren-secondary rounded-2xl p-8 text-white shadow-2xl">
+                            <h3 class="text-2xl font-bold mb-6">Nossos Valores</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-lightbulb text-yellow-300 text-xl mr-4 mt-1"></i>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Inovação</h4>
+                                        <p class="text-sm opacity-90">Sempre buscando as melhores tecnologias e práticas do mercado.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-handshake text-yellow-300 text-xl mr-4 mt-1"></i>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Parceria</h4>
+                                        <p class="text-sm opacity-90">Construímos relacionamentos duradouros baseados em confiança.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-bullseye text-yellow-300 text-xl mr-4 mt-1"></i>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Resultados</h4>
+                                        <p class="text-sm opacity-90">Foco em entregar valor real e mensurável para nossos clientes.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-star text-yellow-300 text-xl mr-4 mt-1"></i>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Excelência</h4>
+                                        <p class="text-sm opacity-90">Comprometidos com a qualidade em cada projeto.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        
+
+        <!-- Tecnologias Section -->
         <section class="py-16 md:py-24 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 text-gray-
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Tecnologias que Dominamos</h2>
+                    <p class="text-xl text-gray-600">Utilizamos as ferramentas mais modernas e eficientes do mercado</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fab fa-react text-4xl text-blue-500 mb-3"></i>
+                        <h4 class="font-semibold">React</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fab fa-node-js text-4xl text-green-600 mb-3"></i>
+                        <h4 class="font-semibold">Node.js</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fab fa-python text-4xl text-yellow-500 mb-3"></i>
+                        <h4 class="font-semibold">Python</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fas fa-database text-4xl text-blue-600 mb-3"></i>
+                        <h4 class="font-semibold">SQL/NoSQL</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fab fa-aws text-4xl text-orange-500 mb-3"></i>
+                        <h4 class="font-semibold">AWS</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fab fa-microsoft text-4xl text-blue-500 mb-3"></i>
+                        <h4 class="font-semibold">Azure</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fas fa-chart-bar text-4xl text-purple-500 mb-3"></i>
+                        <h4 class="font-semibold">Power BI</h4>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center card-hover">
+                        <i class="fas fa-table text-4xl text-orange-600 mb-3"></i>
+                        <h4 class="font-semibold">Tableau</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contato Section -->
+        <section id="contato" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Entre em Contato</h2>
+                    <p class="text-xl text-gray-600">Vamos conversar sobre como podemos ajudar seu negócio</p>
+                </div>
+                <div class="max-w-2xl mx-auto">
+                    <form class="bg-gray-50 p-8 rounded-xl shadow-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="nome" class="block text-gray-700 font-medium mb-2">Nome</label>
+                                <input type="text" id="nome" name="nome" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-loren-primary focus:border-transparent outline-none transition" placeholder="Seu nome">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2">E-mail</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-loren-primary focus:border-transparent outline-none transition" placeholder="seu@email.com">
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="empresa" class="block text-gray-700 font-medium mb-2">Empresa</label>
+                            <input type="text" id="empresa" name="empresa" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-loren-primary focus:border-transparent outline-none transition" placeholder="Nome da sua empresa">
+                        </div>
+                        <div class="mb-6">
+                            <label for="mensagem" class="block text-gray-700 font-medium mb-2">Mensagem</label>
+                            <textarea id="mensagem" name="mensagem" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-loren-primary focus:border-transparent outline-none transition" placeholder="Conte-nos sobre seu projeto..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-loren-primary to-loren-secondary hover:opacity-90 text-white font-bold text-lg py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+                            <i class="fas fa-paper-plane mr-2"></i>Enviar Mensagem
+                        </button>
+                    </form>
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div>
+                            <i class="fas fa-envelope text-loren-primary text-2xl mb-3"></i>
+                            <p class="text-gray-600 font-medium">E-mail</p>
+                            <p class="text-gray-800">contato@loren.com.br</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone text-loren-primary text-2xl mb-3"></i>
+                            <p class="text-gray-600 font-medium">Telefone</p>
+                            <p class="text-gray-800">(34) 99696-0659</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-map-marker-alt text-loren-primary text-2xl mb-3"></i>
+                            <p class="text-gray-600 font-medium">Localização</p>
+                            <p class="text-gray-800">Frutal, Brasil</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Loren</h3>
+                    <p class="text-gray-400">Transformando ideias em soluções tecnológicas inteligentes.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Serviços</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#servicos" class="hover:text-white transition">Desenvolvimento</a></li>
+                        <li><a href="#servicos" class="hover:text-white transition">Business Intelligence</a></li>
+                        <li><a href="#servicos" class="hover:text-white transition">Consultoria</a></li>
+                        <li><a href="#servicos" class="hover:text-white transition">Cloud Computing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Empresa</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#sobre" class="hover:text-white transition">Sobre Nós</a></li>
+                        <li><a href="#contato" class="hover:text-white transition">Contato</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Carreiras</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Redes Sociais</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Loren. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+
+        // Form submission (you can add actual form handling here)
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Obrigado pelo seu interesse! Entraremos em contato em breve.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
