@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Vendas | Loren BI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .bg-mesh {
+            background-color: #0f0f1a;
+            background-image: 
+                radial-gradient(at 40% 20%, rgba(59, 130, 246, 0.3) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, rgba(59, 130, 246, 0.2) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, rgba(59, 130, 246, 0.15) 0px, transparent 50%);
+        }
+        
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 140px);
+            min-height: 600px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 15, 26, 0.9);
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(59, 130, 246, 0.2);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'loren-primary': '#667eea',
+                        'loren-secondary': '#764ba2',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-mesh min-h-screen text-white">
+    
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="portfolio-bi.html" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                        <i class="fas fa-arrow-left text-sm"></i>
+                    </div>
+                    <span class="hidden sm:inline font-medium">Voltar</span>
+                </a>
+                <div class="w-px h-6 bg-white/20 hidden sm:block"></div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold">Dashboard de Vendas</h1>
+                        <p class="text-xs text-gray-400 hidden sm:block">Análise de Performance Comercial</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
+                    <i class="fas fa-home"></i>
+                    <span class="hidden sm:inline">Início</span>
+                </a>
+                <a href="https://wa.me/5534996960659" class="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:opacity-90 text-white font-semibold py-2 px-4 rounded-xl transition-all text-sm">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="hidden sm:inline">Quero um igual</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto animate-fade-in">
+            
+            <!-- Info Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-sm text-gray-300">Dados em tempo real</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-400">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>12 Visualizações</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2 text-sm text-gray-400">
+                    <i class="fas fa-expand"></i>
+                    <span>Clique no dashboard para interagir</span>
+                </div>
+            </div>
+            
+            <!-- Dashboard Container -->
+            <div class="iframe-container">
+                <div class="loading-overlay" id="loading">
+                    <div class="spinner mb-4"></div>
+                    <p class="text-gray-400">Carregando dashboard...</p>
+                </div>
+                
+                <iframe 
+                    src="https://app.powerbi.com/view?r=eyJrIjoiYWRjMTNhZmQtY2U2Yi00NWY3LThhY2QtYzUyNGQ0MTYyMWE3IiwidCI6ImFkMWY3ZmFjLTJlZmItNDVjNy1hZThhLWNlNmFkMzhlNWFkNyJ9"
+                    frameborder="0"
+                    title="Dashboard de Vendas"
+                    allowfullscreen="true"
+                    allow="fullscreen"
+                    style="width: 100%; height: 100%; border: none;"
+                    onload="document.getElementById('loading').classList.add('hidden')"
+                ></iframe>
+            </div>
+            
+            <!-- Dashboard Description -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                            <i class="fas fa-bullseye text-blue-400"></i>
+                        </div>
+                        <h3 class="font-semibold">Objetivo</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Monitorar e analisar a performance de vendas em tempo real, 
+                        identificando tendências e oportunidades de melhoria.
+                    </p>
+                </div>
+                
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
+                            <i class="fas fa-database text-green-400"></i>
+                        </div>
+                        <h3 class="font-semibold">Fontes de Dados</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        ERP, CRM, e-commerce e planilhas integradas automaticamente 
+                        via processos de ETL.
+                    </p>
+                </div>
+                
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                            <i class="fas fa-sync text-purple-400"></i>
+                        </div>
+                        <h3 class="font-semibold">Atualização</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Dados atualizados em tempo real com refresh automático 
+                        a cada 15 minutos.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Key Metrics Preview -->
+            <div class="mt-8 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-white/10 rounded-2xl p-8">
+                <h3 class="text-xl font-bold mb-6">Principais Métricas do Dashboard</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-400 mb-1">Receita Total</div>
+                        <p class="text-gray-400 text-sm">Faturamento do período</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-400 mb-1">Ticket Médio</div>
+                        <p class="text-gray-400 text-sm">Valor médio por venda</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-400 mb-1">Conversão</div>
+                        <p class="text-gray-400 text-sm">Taxa de fechamento</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-400 mb-1">Top Produtos</div>
+                        <p class="text-gray-400 text-sm">Mais vendidos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-6 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
+                    <i class="fas fa-code text-white text-sm"></i>
+                </div>
+                <span class="text-gray-400 text-sm">&copy; 2024 Loren. Todos os direitos reservados.</span>
+            </div>
+            <a href="https://wa.me/5534996960659" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm">
+                <i class="fab fa-whatsapp text-green-400"></i>
+                Quer um dashboard assim? Fale conosco!
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>
+

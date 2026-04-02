@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Financeiro | Loren BI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .bg-mesh {
+            background-color: #0f0f1a;
+            background-image: 
+                radial-gradient(at 40% 20%, rgba(118, 75, 162, 0.3) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, rgba(118, 75, 162, 0.2) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, rgba(118, 75, 162, 0.15) 0px, transparent 50%);
+        }
+        
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 140px);
+            min-height: 600px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 15, 26, 0.9);
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(118, 75, 162, 0.2);
+            border-top-color: #764ba2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'loren-primary': '#667eea',
+                        'loren-secondary': '#764ba2',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-mesh min-h-screen text-white">
+    
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="portfolio-bi.html" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                        <i class="fas fa-arrow-left text-sm"></i>
+                    </div>
+                    <span class="hidden sm:inline font-medium">Voltar</span>
+                </a>
+                <div class="w-px h-6 bg-white/20 hidden sm:block"></div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-dollar-sign text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold">Dashboard Financeiro</h1>
+                        <p class="text-xs text-gray-400 hidden sm:block">Visão Consolidada das Finanças</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
+                    <i class="fas fa-home"></i>
+                    <span class="hidden sm:inline">Início</span>
+                </a>
+                <a href="https://wa.me/5534996960659" class="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-purple-600 hover:opacity-90 text-white font-semibold py-2 px-4 rounded-xl transition-all text-sm">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="hidden sm:inline">Quero um igual</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto animate-fade-in">
+            
+            <!-- Info Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                        <span class="text-sm text-gray-300">Atualização mensal</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-400">
+                        <i class="fas fa-chart-line"></i>
+                        <span>8 Visualizações</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2 text-sm text-gray-400">
+                    <i class="fas fa-expand"></i>
+                    <span>Clique no dashboard para interagir</span>
+                </div>
+            </div>
+            
+            <!-- Dashboard Container -->
+            <div class="iframe-container">
+                <div class="loading-overlay" id="loading">
+                    <div class="spinner mb-4"></div>
+                    <p class="text-gray-400">Carregando dashboard...</p>
+                </div>
+                
+                <!-- 
+                    SUBSTITUA A URL ABAIXO PELA URL DO SEU DASHBOARD
+                    Exemplos:
+                    - Power BI: https://app.powerbi.com/view?r=SEU_REPORT_ID
+                    - Tableau: https://public.tableau.com/views/SEU_DASHBOARD
+                    - Looker: https://lookerstudio.google.com/embed/reporting/SEU_ID
+                    - Metabase: https://seu-metabase.com/public/dashboard/SEU_ID
+                -->
+                <iframe 
+                    src="https://app.powerbi.com/view?r=SEU_REPORT_ID_AQUI"
+                    title="Dashboard Financeiro"
+                    allowfullscreen="true"
+                    onload="document.getElementById('loading').classList.add('hidden')"
+                ></iframe>
+            </div>
+            
+            <!-- Dashboard Description -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                            <i class="fas fa-bullseye text-purple-400"></i>
+                        </div>
+                        <h3 class="font-semibold">Objetivo</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Consolidar informações financeiras para tomada de decisões 
+                        estratégicas e controle orçamentário.
+                    </p>
+                </div>
+                
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
+                            <i class="fas fa-database text-green-400"></i>
+                        </div>
+                        <h3 class="font-semibold">Fontes de Dados</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Sistema contábil, bancos, contas a pagar/receber e 
+                        planilhas de controle financeiro.
+                    </p>
+                </div>
+                
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
+                            <i class="fas fa-calendar text-orange-400"></i>
+                        </div>
+                        <h3 class="font-semibold">Atualização</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Fechamento mensal com dados consolidados até o último 
+                        dia útil do mês anterior.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Key Metrics Preview -->
+            <div class="mt-8 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-white/10 rounded-2xl p-8">
+                <h3 class="text-xl font-bold mb-6">Principais Métricas do Dashboard</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-400 mb-1">Fluxo de Caixa</div>
+                        <p class="text-gray-400 text-sm">Entradas vs Saídas</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-400 mb-1">DRE</div>
+                        <p class="text-gray-400 text-sm">Resultado do exercício</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-400 mb-1">EBITDA</div>
+                        <p class="text-gray-400 text-sm">Margem operacional</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-400 mb-1">Projeções</div>
+                        <p class="text-gray-400 text-sm">Forecast trimestral</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Features -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <h3 class="font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-shield-alt text-purple-400"></i>
+                        Segurança dos Dados
+                    </h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400 text-xs"></i>
+                            Acesso restrito por nível de permissão
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400 text-xs"></i>
+                            Dados criptografados em trânsito e repouso
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400 text-xs"></i>
+                            Conformidade com LGPD
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <h3 class="font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-cogs text-purple-400"></i>
+                        Funcionalidades
+                    </h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400 text-xs"></i>
+                            Drill-down por centro de custo
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400 text-xs"></i>
+                            Comparativo com orçamento previsto
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400 text-xs"></i>
+                            Exportação de relatórios em PDF/Excel
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-6 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
+                    <i class="fas fa-code text-white text-sm"></i>
+                </div>
+                <span class="text-gray-400 text-sm">&copy; 2024 Loren. Todos os direitos reservados.</span>
+            </div>
+            <a href="https://wa.me/5534996960659" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm">
+                <i class="fab fa-whatsapp text-green-400"></i>
+                Quer um dashboard assim? Fale conosco!
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>
+

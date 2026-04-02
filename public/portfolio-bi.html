@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio BI | Loren - Exemplos de Dashboards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dashboard-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-12px) scale(1.02);
+        }
+        
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .dashboard-card:hover::before {
+            left: 100%;
+        }
+        
+        .icon-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-slide-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+        
+        .animate-slide-right {
+            animation: slideInRight 0.8s ease-out forwards;
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+        
+        .bg-mesh {
+            background-color: #0f0f1a;
+            background-image: 
+                radial-gradient(at 40% 20%, rgba(102, 126, 234, 0.3) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, rgba(118, 75, 162, 0.3) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, rgba(102, 126, 234, 0.2) 0px, transparent 50%),
+                radial-gradient(at 80% 50%, rgba(118, 75, 162, 0.2) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(102, 126, 234, 0.3) 0px, transparent 50%),
+                radial-gradient(at 80% 100%, rgba(118, 75, 162, 0.3) 0px, transparent 50%);
+        }
+        
+        .glow-purple {
+            box-shadow: 0 0 40px rgba(118, 75, 162, 0.4), 0 0 80px rgba(118, 75, 162, 0.2);
+        }
+        
+        .glow-blue {
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.4), 0 0 80px rgba(102, 126, 234, 0.2);
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: particle-float 15s infinite;
+        }
+        
+        @keyframes particle-float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'loren-primary': '#667eea',
+                        'loren-secondary': '#764ba2',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-mesh min-h-screen text-white overflow-x-hidden">
+    
+    <!-- Particles -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 5s;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-code text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-white">Loren</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="text-gray-300 hover:text-white transition-colors font-medium">
+                    <i class="fas fa-home mr-2"></i>Início
+                </a>
+                <a href="index.html#servicos" class="text-gray-300 hover:text-white transition-colors font-medium">
+                    <i class="fas fa-cogs mr-2"></i>Serviços
+                </a>
+                <a href="index.html#contato" class="text-gray-300 hover:text-white transition-colors font-medium">
+                    <i class="fas fa-envelope mr-2"></i>Contato
+                </a>
+            </nav>
+            <a href="https://wa.me/5534996960659" class="hidden md:flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-2 px-5 rounded-xl transition-all">
+                <i class="fab fa-whatsapp text-green-400"></i>
+                <span>Fale Conosco</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-16">
+        <!-- Hero Section -->
+        <section class="py-16 md:py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center animate-fade-in-up">
+                    <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-8">
+                        <i class="fas fa-chart-pie text-loren-primary"></i>
+                        <span class="text-sm font-medium">Business Intelligence</span>
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                        Portfólio de
+                        <span class="gradient-text"> Dashboards</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed">
+                        Explore exemplos reais de dashboards desenvolvidos pela Loren. 
+                        Veja como transformamos dados complexos em insights visuais poderosos.
+                    </p>
+                </div>
+
+                <!-- Dashboard Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    
+                    <!-- Dashboard 1 -->
+                    <a href="dashboard-vendas.html" class="dashboard-card glass-card rounded-3xl p-8 block group animate-slide-left glow-blue">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center icon-float">
+                                <i class="fas fa-shopping-cart text-white text-2xl"></i>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-loren-primary group-hover:text-white transition-all">
+                                <i class="fas fa-arrow-right text-gray-600 group-hover:text-white transition-colors"></i>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Dashboard de Vendas</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Análise completa de performance de vendas com métricas de receita, 
+                            produtos mais vendidos, análise regional e tendências temporais.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">Vendas</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">KPIs</span>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Tendências</span>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-gray-200 flex items-center gap-4">
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>12 Visualizações</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <i class="fas fa-sync"></i>
+                                <span>Tempo Real</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Dashboard 2 -->
+                    <a href="dashboard-financeiro.html" class="dashboard-card glass-card rounded-3xl p-8 block group animate-slide-right glow-purple">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center icon-float" style="animation-delay: 0.5s;">
+                                <i class="fas fa-dollar-sign text-white text-2xl"></i>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-loren-secondary group-hover:text-white transition-all">
+                                <i class="fas fa-arrow-right text-gray-600 group-hover:text-white transition-colors"></i>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Dashboard Financeiro</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Visão consolidada das finanças da empresa com análise de fluxo de caixa, 
+                            DRE, indicadores financeiros e projeções.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Finanças</span>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">DRE</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">Projeções</span>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-gray-200 flex items-center gap-4">
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <i class="fas fa-chart-line"></i>
+                                <span>8 Visualizações</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <i class="fas fa-calendar"></i>
+                                <span>Mensal</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Features Section -->
+                <div class="mt-24 text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-12">
+                        Por que nossos dashboards se destacam?
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-bolt text-blue-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Performance</h3>
+                            <p class="text-gray-400 text-sm">Dashboards otimizados para carregamento rápido e interações fluidas.</p>
+                        </div>
+                        
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-paint-brush text-purple-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Design</h3>
+                            <p class="text-gray-400 text-sm">Visualizações elegantes e intuitivas que facilitam a interpretação.</p>
+                        </div>
+                        
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/20 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-cog text-green-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Customização</h3>
+                            <p class="text-gray-400 text-sm">Totalmente adaptáveis às necessidades específicas do seu negócio.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="mt-24 text-center">
+                    <div class="bg-gradient-to-r from-loren-primary/20 to-loren-secondary/20 border border-white/10 rounded-3xl p-12 backdrop-blur-sm max-w-3xl mx-auto">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4">
+                            Precisa de um dashboard personalizado?
+                        </h2>
+                        <p class="text-gray-300 mb-8 max-w-lg mx-auto">
+                            Entre em contato conosco e descubra como podemos transformar seus dados em decisões estratégicas.
+                        </p>
+                        <a href="https://wa.me/5534996960659" class="inline-flex items-center gap-3 bg-gradient-to-r from-loren-primary to-loren-secondary hover:opacity-90 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                            Solicitar Orçamento
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
+                    <i class="fas fa-code text-white text-sm"></i>
+                </div>
+                <span class="text-gray-400">&copy; 2024 Loren. Todos os direitos reservados.</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors text-sm">Início</a>
+                <a href="index.html#servicos" class="text-gray-400 hover:text-white transition-colors text-sm">Serviços</a>
+                <a href="index.html#contato" class="text-gray-400 hover:text-white transition-colors text-sm">Contato</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
